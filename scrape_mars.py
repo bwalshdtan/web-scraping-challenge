@@ -48,10 +48,51 @@ def mars_weather (browser):
     url = "https://twitter.com/marswxreport?lang=en"
     browser.visit(url)
     html = browser.html
-    weather_soup = bs(html, 'html.parser'
+    weather_soup = bs(html, 'html.parser')
     mars_tweet = weather_soup.find("div", attrs={"class": "tweet", "data-name": "Mars Weather"})
     mars_weather = mars_tweet.find("p", "tweet-text").get_text()
 
     return mars_weather
 
+# Scrape Mars facts
+def mars_facts (browser):
+    try:
+        mars_df = pd.read_html("https://space-facts.com/mars/")[0]
+    except BaseException:
+            return None
+    mars_df.columns=['Description', 'Values']
+
+    return mars_df.to_html(classes="table table-striped")
+
+# Scrape Mars hemispheres
+def mars_hemispheres (browser):
+    url = "https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars"
+    browser.visit(url)
+    hemisphere_image_url = []
+    links = browser.find_by_css("a.product-item h3")
+    for item in range(len(links)):
+        hemisphere = {}
+        browser.find_by_css("a.product-item h3")[item].click()
+        sample_element = browser.find_link_by_text("Sample").first
+        hemisphere["img_url"] = sample_element["href"]
+        hemisphere["title"] = browser.find_by_css("h2.title").text
+        hemisphere_image_url.append(hemisphere)
+        browser.back()
+    
+    return hemisphere_image_url
+
+def scrape_hemisphere (html_text):
+    hemisphere_soup = bs(html_text, 'html.parser')
+    try:
+        title_element = hemisphere_soup.find("h2", class="title").get_text()
+        sample_element = hemisphere_soup.find("a", text="Sample").get("href")
+    except AttributeError:
+        title_element = None
+        sample_element = None
+    hemisphere = {
+        "title": title_element,
+        "img_url": sample_element
+    }
+
+    return hemisphere
 
