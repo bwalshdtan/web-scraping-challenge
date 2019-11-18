@@ -1,7 +1,7 @@
 # Dependencies
 from splinter import Browser
 from bs4 import BeautifulSoup as bs
-import pandas as import pd
+import pandas as pd
 import datetime as dt
 
 executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
@@ -44,7 +44,7 @@ def featured_images (browser):
     return featured_img_url
 
 # Scrape Mars Weather from Twitter
-def mars_weather (browser):
+def scrape_mars_weather (browser):
     url = "https://twitter.com/marswxreport?lang=en"
     browser.visit(url)
     html = browser.html
@@ -55,7 +55,7 @@ def mars_weather (browser):
     return mars_weather
 
 # Scrape Mars facts
-def mars_facts (browser):
+def mars_facts ():
     try:
         mars_df = pd.read_html("https://space-facts.com/mars/")[0]
     except BaseException:
@@ -84,7 +84,7 @@ def mars_hemispheres (browser):
 def scrape_hemisphere (html_text):
     hemisphere_soup = bs(html_text, 'html.parser')
     try:
-        title_element = hemisphere_soup.find("h2", class="title").get_text()
+        title_element = hemisphere_soup.find("h2", class_="title").get_text()
         sample_element = hemisphere_soup.find("a", text="Sample").get("href")
     except AttributeError:
         title_element = None
@@ -96,3 +96,29 @@ def scrape_hemisphere (html_text):
 
     return hemisphere
 
+# scrape everything
+def scrape_all ():
+    executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
+    browser = Browser("chrome", **executable_path, headless=False)
+
+    news_title, news_paragraph = mars_news (browser)
+    featured_img_url = featured_images (browser)
+    mars_weather = scrape_mars_weather (browser)
+    facts = mars_facts()
+    hemisphere_image_url = mars_hemispheres (browser)
+    timestamp = dt.datetime.now()
+
+    data = {
+        "news_title": news_title,
+        "news_paragraph": news_paragraph,
+        "featured_image": featured_img_url,
+        "mars_weather": mars_weather,
+        "mars_facts": facts,
+        "hemispheres": hemisphere_image_url,
+        "last_modified": timestamp
+    }
+    browser.quit()
+    return data
+
+if __name__ == "__main__":
+    print(scrape_all())
