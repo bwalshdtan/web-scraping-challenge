@@ -7,6 +7,10 @@ import datetime as dt
 executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
 browser = Browser("chrome", **executable_path, headless=False)
 
+# Windows users
+# executable_path = {'executable_path': 'chromedriver.exe'}
+# browser = Browser('chrome', **executable_path, headless=False)
+
 # scrape news
 def mars_news (browser):
     url = "https://mars.nasa.gov/news/"
@@ -100,6 +104,10 @@ def scrape_hemisphere (html_text):
 def scrape_all ():
     executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
     browser = Browser("chrome", **executable_path, headless=False)
+
+    # Windows users
+    # executable_path = {'executable_path': 'chromedriver.exe'}
+    # browser = Browser('chrome', **executable_path, headless=False)
 
     news_title, news_paragraph = mars_news (browser)
     featured_img_url = featured_images (browser)
