@@ -6,10 +6,73 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Mission To Mars</title>
-        <link rel="stylesheet" href="<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">">
       </head>
       <body>
-          
+        <!--Container for title of page and scraper button-->
+          <div class="container">
+            <div class="jumbotron text-center">
+              <h1><b>Mission To Mars</b></h1>
+              <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+            </div>
+          </div>
+        <!--Contaniner for Mars News-->
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="media">
+                  <div class="media-body">
+                    <h2><b>Latest Mars News</b></h2>
+                    <h4 class="media heading"><b>{{mars.mars_title}}</b></h4>
+                    <h5><p>{{mars.news_paragraph</p></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Containers for Mars Images ,weather, and facts-->
+          <div class="row">
+            <!--Mars Image-->
+            <div class="col-md-9">
+              <h2><b>Featured Mars Image</b></h2>
+                <img src="{{featured_image_url}}" class="img-responsive">
+            </div>
+            <!--Mars Weather-->
+            <div class="col-md-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <h4><b>Current Mars Weather</b></h4>
+                      <p>{{mars.mars_weather}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4><b>Mars Facts</b></h4>
+                    {{mars.facts | safe}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Container for hemispheres-->
+            <div class="row" style="margin-top: 80px;">
+              <div class="page-header">
+                <h2 class="text-center"><b>Mars Hemispheres</b></h2>
+              </div>
+              {% for hemisphere in in mars.hemisphere %}
+                <div class="col-md-6">
+                  <div class="thumbnail">
+                    <img src="{{hemisphere.image_url}}">
+                    <div class="caption">
+                      <h3><b>{{hemisphere.title}}</b></h3>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
 
 
 
