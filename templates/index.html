@@ -6,25 +6,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Mission To Mars</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
       </head>
       <body>
-        <!--Container for title of page and scraper button-->
+        <!--Container for title of page and scraper button -->
           <div class="container">
             <div class="jumbotron text-center">
               <h1><b>Mission To Mars</b></h1>
               <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
             </div>
           </div>
-        <!--Contaniner for Mars News-->
+        <!--Contaniner for Mars News -->
           <div class="container">
             <div class="row">
               <div class="col-md-12">
                 <div class="media">
                   <div class="media-body">
                     <h2><b>Latest Mars News</b></h2>
-                    <h4 class="media heading"><b>{{mars.mars_title}}</b></h4>
-                    <h5><p>{{mars.news_paragraph</p></h5>
+                    <h4 class="media heading"><b>{{mars.news_title}}</b></h4>
+                    <h5><p>{{mars.news_paragraph}}</p></h5>
                   </div>
                 </div>
               </div>
@@ -35,7 +35,7 @@
             <!--Mars Image-->
             <div class="col-md-9">
               <h2><b>Featured Mars Image</b></h2>
-                <img src="{{featured_image_url}}" class="img-responsive">
+                <img src="{{mars.featured_image}}" class="img-responsive">
             </div>
             <!--Mars Weather-->
             <div class="col-md-3">
@@ -51,7 +51,7 @@
                 <div class="row">
                   <div class="col-md-12">
                     <h4><b>Mars Facts</b></h4>
-                    {{mars.facts | safe}}
+                    {{mars.mars_facts | safe}}
                   </div>
                 </div>
               </div>
@@ -61,12 +61,13 @@
               <div class="page-header">
                 <h2 class="text-center"><b>Mars Hemispheres</b></h2>
               </div>
-              {% for hemisphere in in mars.hemisphere %}
+              {% for hemisphere in mars.hemispheres %}
                 <div class="col-md-6">
                   <div class="thumbnail">
-                    <img src="{{hemisphere.image_url}}">
+                    <img src="{{hemisphere.img_url}}">
                     <div class="caption">
                       <h3><b>{{hemisphere.title}}</b></h3>
+                      
                     </div>
                   </div>
                 </div>
